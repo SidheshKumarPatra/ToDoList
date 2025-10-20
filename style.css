@@ -1,0 +1,225 @@
+/* filepath: /home/sidhesh/Desktop/learnings/Web Dev/style.css */
+/* ...existing code... */
+
+:root{
+    --bg-1: #f6f9ff;
+    --bg-2: #eef3ff;
+    --bg-3: #fff7ed; /* warm accent */
+    --bg-4: #f0fdf4; /* green tint */
+    --card: #ffffff;
+    --accent: #4f46e5; /* indigo-600 */
+    --muted: #6b7280;  /* gray-500 */
+    --danger: #ef4444; /* red-500 */
+    --radius: 12px;
+    --shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+    --glass: rgba(255,255,255,0.6);
+}
+
+/* Page layout */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* multi-color background */
+    background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 85%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* soft color blobs for depth */
+body::before,
+body::after{
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    filter: blur(60px);
+    opacity: 0.18;
+    z-index: 0;
+}
+
+body::before {
+    width: 520px;
+    height: 520px;
+    left: -120px;
+    top: -80px;
+    background: radial-gradient(circle at 30% 30%, rgba(79,70,229,0.18), transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(99,102,241,0.12), transparent 40%);
+}
+
+body::after {
+    width: 420px;
+    height: 420px;
+    right: -80px;
+    bottom: -60px;
+    background: radial-gradient(circle at 20% 30%, rgba(253,224,71,0.10), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(34,197,94,0.06), transparent 40%);
+}
+
+/* keep app above background blobs */
+.todo-app, .todo-card {
+    position: relative;
+    z-index: 1;
+}
+
+.todo-app {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+}
+
+/* Card */
+.todo-card {
+    width: 100%;
+    max-width: 640px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.9), var(--card));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    box-sizing: border-box;
+    backdrop-filter: blur(6px);
+}
+
+/* Header */
+.todo-card h1 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+    letter-spacing: -0.2px;
+}
+
+.todo-card p.subtitle {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* Input row */
+.input-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+#todo-Input {
+    flex: 1;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #e6e9f2;
+    background: transparent;
+    outline: none;
+    font-size: 1rem;
+    transition: box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+#todo-Input:focus {
+    box-shadow: 0 4px 14px rgba(79,70,229,0.12);
+    border-color: rgba(79,70,229,0.28);
+}
+
+#add-btn {
+    padding: 10px 14px;
+    background: linear-gradient(180deg, var(--accent), #3730a3);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+}
+
+#add-btn:active { transform: translateY(1px); }
+#add-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* Todo list */
+#todo-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+
+#todo-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(245,247,255,0.8), rgba(255,255,255,0.8));
+    border: 1px solid #f0f2f8;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+#todo-list li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(15,23,42,0.06);
+}
+
+/* checkbox + text */
+#todo-list li input[type="checkbox"]{
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+#todo-list li span {
+    flex: 1;
+    display: inline-block;
+    font-size: 1rem;
+    color: #0f172a;
+    word-break: break-word;
+}
+
+/* strike-through when checkbox is checked (structure: checkbox + span) */
+#todo-list li input[type="checkbox"]:checked + span {
+    text-decoration: line-through;
+    color: var(--muted);
+    opacity: 0.95;
+}
+
+/* edit hint on double-click */
+#todo-list li span[contenteditable="true"] {
+    outline: 2px dashed rgba(79,70,229,0.14);
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+/* delete button */
+#todo-list li button {
+    background: transparent;
+    border: 1px solid rgba(239,68,68,0.12);
+    color: var(--danger);
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.12s ease, transform 0.08s ease, opacity 0.12s ease;
+}
+
+#todo-list li button:hover {
+    background: rgba(239,68,68,0.06);
+    transform: translateY(-1px);
+}
+
+/* Empty state */
+.todo-empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 18px;
+    font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 520px){
+    .todo-card { padding: 14px; }
+    #add-btn { padding: 10px; font-size: 0.95rem; }
+    #todo-Input { padding: 10px; font-size: 0.95rem; }
+    #todo-list li { padding: 10px; gap: 8px; }
+}
